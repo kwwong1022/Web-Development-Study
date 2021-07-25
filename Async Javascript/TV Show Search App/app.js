@@ -23,3 +23,5 @@ let searchTV = async (searchInput)=> {
             console.log("Error", e);
         });
 }
+
+console.log(form.style.backgroundColor.rgb());
