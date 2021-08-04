@@ -16,6 +16,10 @@ app.get('/r/:subreddit', (req, res) => {
     }
 })
 
+app.post('/tacos', (req, res) => {
+    
+})
+
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
 });
