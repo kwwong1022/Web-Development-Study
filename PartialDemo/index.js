@@ -5,6 +5,7 @@ const redditData = require('./data.json');
 const path = require('path');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 app.get('/r/:subreddit', (req, res) => {
@@ -16,8 +17,13 @@ app.get('/r/:subreddit', (req, res) => {
     }
 })
 
+app.get('/tacos', (req, res) => {
+    res.render('tacos');
+})
+
 app.post('/tacos', (req, res) => {
-    
+    console.log(req.body);
+    res.send("sdf")
 })
 
 app.listen(port, () => {
