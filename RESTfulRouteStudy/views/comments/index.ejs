@@ -10,7 +10,9 @@
     <h1>Comments Index</h1>
     <ul>
         <% for (let comment of comments) { %>
-            <li><a href="/comments/<%= comment.id %>"><%= comment.comment %> - <%= comment.name %></a></li>
+            <li><a href="/comments/<%= comment.id %>"><%= comment.comment %> - <%= comment.name %></a>
+            <a href="/comments/<%= comment.id %>/edit" style="padding-left: .5rem;">edit</a>
+            </li>
         <% } %>
     </ul>
 </body>
