@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override');
 const app = express();
 const port = 8080;
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -71,7 +73,28 @@ app.get('/comments/:id', (req, res) => {
 });
 
 // update:
+app.get('/comments/:id/edit', (req, res) => {
+    const { id } = req.params;
+    const comment = comments.find(c => c.id === parseInt(id));
+    if (typeof comment != 'undefined') {
+        res.render('comments/edit', { ...comment });
+    } else {
+        res.send('404 ID Not Found');
+    }
+});
 
+app.patch('/comments/:id', (req, res) => {
+    const { id } = req.params;
+    const newComment = req.body.newComment;
+    const oriComment = comments.find(c => c.id === parseInt(id));
+
+    if (typeof oriComment != 'undefined') {
+        oriComment.comment = newComment;
+        res.redirect("/comments");
+    } else {
+        res.send('404 ID Not Found');
+    }
+});
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`);
