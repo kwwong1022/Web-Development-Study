@@ -22,7 +22,7 @@ const movieSchema = mongoose.Schema({
 const Movie = mongoose.model('Movie', movieSchema);
 // const insideOut = new Movie({ title: 'Inside Out', rate: 9 });
 
-Movie.insertMany([{title: 'Movie 1', rate: 8}, {title: 'Movie 2', rate: 5}, {title: 'Movie 3', rate: 2}])
+Movie.insertMany([{ title: 'Movie 1', rate: 8 }, { title: 'Movie 2', rate: 5 }, { title: 'Movie 3', rate: 2 }])
     .then(data => {
         console.log(`saved \n${data}`);
     }).catch(err => {
