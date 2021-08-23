@@ -6,6 +6,7 @@ const port = 8080;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // mongoose
@@ -28,17 +29,28 @@ app.get('/', (req, res)=> {
 
 app.get('/products', async (req, res)=> {
     const products = await Product.find({});
-    console.log(products);
     res.render('./products/index', { products });
 })
+
+app.post('/products', async (req, res) => {
+    const {productName: name, productPrice: price, productCategory: category} = req.body;
+    const newProduct = new Product({name, price, category});
+    await newProduct.save();
+    res.redirect('/products');
+});
+
+app.get('/products/new', (req, res) => {
+    res.render('products/new');
+});
 
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     //res.send('product search done');
-    console.log(product);
     res.render('products/show', { product });
 });
+
+
 
 // routing
 app.listen(port, ()=> {
