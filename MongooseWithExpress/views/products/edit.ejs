@@ -15,9 +15,9 @@
         <input type="number" name="productPrice" id="productPrice" value="<%= product.price %>"><br>
         <label for="productCategory">Category: </label>
         <select name="productCategory" id="productCategory">
-            <option value="fruit">fruit</option>
-            <option value="vegetable">vegetable</option>
-            <option value="dairy">dairy</option>
+            <option value="fruit" <%= product.category==='fruit'? 'selected':'' %>>fruit</option>
+            <option value="vegetable" <%= product.category==='vegetable'? 'selected':'' %>>vegetable</option>
+            <option value="dairy" <%= product.category==='dairy'? 'selected':'' %>>dairy</option>
         </select><br>
         <button>Submit</button>
     </form>
