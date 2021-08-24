@@ -1,11 +1,13 @@
 // express
 const express = require('express');
 const path = require('path');
+const methodOverride = require('method-override');
 const app = express();
 const port = 8080;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -43,14 +45,36 @@ app.get('/products/new', (req, res) => {
     res.render('products/new');
 });
 
+app.get('/products/:id/edit', async (req, res) => {
+    const { id } = req.params;
+    const product = await Product.findById(id);
+    console.log(product);
+    res.render('products/edit', { product });
+});
+
+app.patch('/products/:id', async (req, res) => {
+    const { id } = req.params;
+    const product = {
+        name: req.body.productName,
+        price: req.body.productPrice,
+        category: req.body.productCategory
+    }
+    await Product.updateOne({ _id: id }, product)
+    .then(data => {
+        console.log(data);
+    })
+    .catch(err => {
+        console.log(err);
+    })
+    res.redirect('/products');
+})
+
 app.get('/products/:id', async (req, res) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     //res.send('product search done');
     res.render('products/show', { product });
 });
-
-
 
 // routing
 app.listen(port, ()=> {
