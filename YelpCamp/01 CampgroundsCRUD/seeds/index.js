@@ -23,14 +23,14 @@ const seedDB = async () => {
     await Campground.deleteMany({});
     for (let i = 0; i < 50; i++) {
         const camp = new Campground({
-            title: sample(places),
-            price: 2.99,
-            description: sample(descriptors),
-            location: `${sample(cities).city}, ${sample(cities).state}`
+            location: `${sample(cities).city}, ${sample(cities).state}`,
+            title: `${sample(descriptors)} ${sample(places)}`
         })
         console.log(camp);
-        // await camp.save();
+        await camp.save();
     }
 }
 
-seedDB();
+seedDB().then(() => {
+    mongoose.connection.close();
+})
