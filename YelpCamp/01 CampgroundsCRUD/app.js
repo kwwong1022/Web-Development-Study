@@ -18,6 +18,7 @@ db.once('open', () => {
     console.log('database connected');
 });
 
+app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -30,10 +31,23 @@ app.get('/campgrounds', async (req, res) => {
     res.render('./campgrounds/index', { campgrounds });
 })
 
+app.get('/campgrounds/new', (req, res) => {
+    res.render('./campgrounds/new');
+});
+
+app.post('/campgrounds', async (req, res) => {
+    let id;
+    await new Campground(req.body.campground)
+        .save()
+        .then((data) => {
+            id = data._id;
+        })
+        .catch(err => console.log(err))
+    res.redirect(`/campgrounds/${id}`);
+});
+
 app.get('/campgrounds/:id', async (req, res) => {
-    const { id } = req.params;
-    const campground = await Campground.findById(id);
-    console.log(campground);
+    const campground = await Campground.findById(req.params.id);
     res.render('./campgrounds/show', { campground });
 })
 
