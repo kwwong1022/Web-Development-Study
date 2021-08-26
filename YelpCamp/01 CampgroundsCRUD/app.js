@@ -46,6 +46,10 @@ app.post('/campgrounds', async (req, res) => {
     res.redirect(`/campgrounds/${id}`);
 });
 
+app.get('/campgrounds/:id/edit', async (req, res) => {
+    
+})
+
 app.get('/campgrounds/:id', async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render('./campgrounds/show', { campground });
